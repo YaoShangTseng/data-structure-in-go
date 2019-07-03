@@ -8,14 +8,15 @@ type List struct {
 type Node struct {
 	value int
 	next *Node
+	prev *Node
 }
 
 func (l *List) First() *Node {
 	return l.head
 }
 
-func (n *Node) Next() *Node {
-	return n.next
+func (l *List) Last() *Node {
+	return l.tail
 }
 
 func (l *List) Push(value int) {
@@ -24,8 +25,17 @@ func (l *List) Push(value int) {
 		l.head = node
 	} else {
 		l.tail.next = node
+		node.prev = l.tail
 	}
 	l.tail = node
+}
+
+func (n *Node) Next() *Node {
+	return n.next
+}
+
+func (n *Node) Prev() *Node {
+	return n.prev
 }
 
 func main()  {
@@ -38,6 +48,15 @@ func main()  {
 	for {
 		println(n.value)
 		n = n.Next()
+		if n == nil {
+			break
+		}
+	}
+
+	n = l.Last()
+	for {
+		println(n.value)
+		n = n.Prev()
 		if n == nil {
 			break
 		}
